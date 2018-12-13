@@ -1,0 +1,9 @@
+extends layout
+
+block content
+	.error
+		a(href="/")
+			img(src='/img/landingcat.png')
+		h1= error.message
+		p Sorry, there's nothing here
+		a.btn.btn-sm.btn-outline-light(href='/game') Go Judge Some Cats!
