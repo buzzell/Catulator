@@ -33,6 +33,7 @@ router.get('/rankings', (req, res, next) => {
 	db.any('SELECT * FROM cats ORDER BY rating DESC')
     .then(function (data) {
       res.status(200)
+      
         .json(data);
     })
     .catch(function (err) {
