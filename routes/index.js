@@ -1,17 +1,23 @@
 const express = require('express');
 const router = express.Router();
-var pgp = require('pg-promise')({});
-var db = pgp('postgres://buzzell:@localhost:5432/catulator');
+const pgp = require('pg-promise')({});
+const EloRating = require('elo-rating');
+const db = pgp('postgres://buzzell:@localhost:5432/catulator');
 
-
+// GET
+// render the landing page
 router.get('/', (req, res, next) => {
-	res.render("landing")
+	res.render("landing");
 });
 
+// GET
+// render the game
 router.get('/game', (req, res, next) => {
 	res.json({game:"game"})
 });
 
+// GET
+// get two random cats
 router.get('/twocats', (req, res, next) => {
 	db.any('select * from cats order by random() limit 2')
     .then(function (data) {
@@ -23,21 +29,68 @@ router.get('/twocats', (req, res, next) => {
     });
 });
 
-
-
-router.get('/vote', (req, res, next) => {
-	res.json({vote:"vote"})
+// POST
+// submit a votes
+router.post('/vote', (req, res, next) => {
+	let winnerId = req.body.winner;
+	let loserId = req.body.loser;
+	db.task(async (t) => {
+    	let winnerData = await t.one('select * from cats where id = $1', winnerId);
+    	let loserData = await t.one('select * from cats where id = $1', loserId);
+    	return [loserData, winnerData];
+	})
+   .then(data => {
+        let result = EloRating.calculate(parseInt(data[1].rating), parseInt(data[0].rating), true, 16);
+        db.task(async (t) => {
+    		await t.none(
+    			'update cats set rating = $1, won = won + 1 where id = $2', 
+    			[
+    				parseInt(result.playerRating),
+    				winnerId
+    			]
+    		);
+    		await t.none(
+    			'update cats set rating = $1, lost = lost + 1 where id = $2', 
+    			[
+    				parseInt(result.opponentRating),
+    				loserId
+    			]
+    		);
+		}).then(() => {
+			res.status(200).json([
+				{
+					id: winnerId,
+					won: data[1].won + 1,
+					lost: data[1].lost,
+					rating: result.playerRating
+				},
+				{
+					id: loserId,
+					won: data[0].won,
+					lost: data[0].lost + 1,
+					rating: result.opponentRating
+				}
+			]);
+		})
+		.catch(err => {
+    		return next(err);
+    	});
+	}).catch(err => {
+    	return next(err);
+    });
 });
 
-router.get('/rankings', (req, res, next) => {
-	db.any('SELECT * FROM cats ORDER BY rating DESC')
+// GET
+// get data for current rank
+router.get('/rankings.json', (req, res, next) => {
+
+	if(!req.query.order) req.query.order = 5;
+	if(!req.query.dirr) req.query.dirr = "DESC";
+	db.any('SELECT * FROM cats ORDER BY $1 $2:raw', [parseInt(req.query.order), req.query.dirr])
     .then(function (data) {
-      res.status(200)
-      
-        .json(data);
-    })
-    .catch(function (err) {
-      return next(err);
+    	res.status(200).json(data);
+    }).catch(function (err) {
+      	return next(err);
     });
 });
 

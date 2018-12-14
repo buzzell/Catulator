@@ -12,6 +12,7 @@
   "dependencies": {
     "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
+    "elo-rating": "^1.0.1",
     "express": "^4.16.4",
     "express-favicon": "^2.0.1",
     "pg-promise": "^8.5.3",

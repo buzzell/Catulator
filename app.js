@@ -1,10 +1,10 @@
 const express = require('express'),
-	  bodyParser = require('body-parser'),
+	  jsonParser = require('body-parser').json,
 	  favicon = require('express-favicon');
 	  app = express();
 
 
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(jsonParser());
 app.use(express.static('public'))
 app.use(favicon('/public/favicon.ico'));
 app.set('view engine', 'pug');
