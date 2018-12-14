@@ -18,7 +18,7 @@ router.get('/game', (req, res, next) => {
 
 // GET
 // get two random cats
-router.get('/twocats', (req, res, next) => {
+router.get('/twocats.json', (req, res, next) => {
 	db.any('select * from cats order by random() limit 2')
     .then(function (data) {
       res.status(200)
@@ -82,13 +82,12 @@ router.post('/vote', (req, res, next) => {
 
 // GET
 // get data for current rank
-router.get('/rankings.json', (req, res, next) => {
-
+router.get('/rankings', (req, res, next) => {
 	if(!req.query.order) req.query.order = 5;
 	if(!req.query.dirr) req.query.dirr = "DESC";
 	db.any('SELECT * FROM cats ORDER BY $1 $2:raw', [parseInt(req.query.order), req.query.dirr])
     .then(function (data) {
-    	res.status(200).json(data);
+    	res.render("rankings", {data:data})
     }).catch(function (err) {
       	return next(err);
     });
