@@ -1,6 +1,28 @@
 extends layout
 block content
+	header
+		h1
+			a(href='/') 
+				img(src='/img/cat.png')
+				| Catulator
 	ul
 		each cat in data
-			li
-				img(src=cat.source)
+			- var total = cat.won + cat.lost
+			- var goodP = 50
+			- var badP = 50
+			if total > 0
+				- var goodP = ( cat.won / total ) * 100
+				- var badP = ( cat.lost / total ) * 100
+			li(id=cat.id)
+				a(href=cat.source, target='_blank') SOURCE
+				img.lozad(src="/img/phold.jpg", data-src=cat.source)
+				div.scale.clearfix
+					div.good(style="width:"+goodP+"%;")
+					div.bad(style="width:"+badP+"%;")
+				div.stats
+					span.won= cat.won + " won"
+					span.rating= cat.rating
+					span.lost= cat.lost + " lost"
+	script(type='text/javascript', src='https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js')
+	script.
+		window.lozad().observe()

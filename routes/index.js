@@ -13,11 +13,24 @@ router.get('/', (req, res, next) => {
 // GET
 // render the game
 router.get('/game', (req, res, next) => {
-	res.json({game:"game"})
+	res.render("game", {page: "game"})
 });
 
 // GET
-// get two random cats
+// render page for rankings
+router.get('/rankings', (req, res, next) => {
+    if(!req.query.order) req.query.order = 5;
+    if(!req.query.dirr) req.query.dirr = "DESC";
+    db.any('SELECT * FROM cats ORDER BY $1 $2:raw', [parseInt(req.query.order), req.query.dirr])
+    .then(function (data) {
+        res.render("rankings", {data:data, page: "rankings"})
+    }).catch(function (err) {
+        return next(err);
+    });
+});
+
+// GET
+// get json for two random cats
 router.get('/twocats.json', (req, res, next) => {
 	db.any('select * from cats order by random() limit 2')
     .then(function (data) {
@@ -30,7 +43,7 @@ router.get('/twocats.json', (req, res, next) => {
 });
 
 // POST
-// submit a votes
+// submit a vote
 router.post('/vote', (req, res, next) => {
 	let winnerId = req.body.winner;
 	let loserId = req.body.loser;
@@ -71,25 +84,11 @@ router.post('/vote', (req, res, next) => {
 					rating: result.opponentRating
 				}
 			]);
-		})
-		.catch(err => {
+		}).catch(err => {
     		return next(err);
     	});
 	}).catch(err => {
     	return next(err);
-    });
-});
-
-// GET
-// get data for current rank
-router.get('/rankings', (req, res, next) => {
-	if(!req.query.order) req.query.order = 5;
-	if(!req.query.dirr) req.query.dirr = "DESC";
-	db.any('SELECT * FROM cats ORDER BY $1 $2:raw', [parseInt(req.query.order), req.query.dirr])
-    .then(function (data) {
-    	res.render("rankings", {data:data})
-    }).catch(function (err) {
-      	return next(err);
     });
 });
 
