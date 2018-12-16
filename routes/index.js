@@ -19,11 +19,21 @@ router.get('/game', (req, res, next) => {
 // GET
 // render page for rankings
 router.get('/rankings', (req, res, next) => {
-    if(!req.query.order) req.query.order = 5;
+    if(!req.query.order) req.query.order = 6;
     if(!req.query.dirr) req.query.dirr = "DESC";
     db.any('SELECT * FROM cats ORDER BY $1 $2:raw', [parseInt(req.query.order), req.query.dirr])
     .then(function (data) {
         res.render("rankings", {data:data, page: "rankings"})
+    }).catch(function (err) {
+        return next(err);
+    });
+});
+router.get('/rankings.json', (req, res, next) => {
+    if(!req.query.order) req.query.order = 6;
+    if(!req.query.dirr) req.query.dirr = "DESC";
+    db.any('SELECT * FROM cats ORDER BY $1 $2:raw', [parseInt(req.query.order), req.query.dirr])
+    .then(function (data) {
+        res.json(data)
     }).catch(function (err) {
         return next(err);
     });
@@ -53,35 +63,37 @@ router.post('/vote', (req, res, next) => {
     	return [loserData, winnerData];
 	})
    .then(data => {
-        let result = EloRating.calculate(parseInt(data[1].rating), parseInt(data[0].rating), true, 16);
+        let result = EloRating.calculate(parseInt(data[1].rank), parseInt(data[0].rank), true, 16);
         db.task(async (t) => {
     		await t.none(
-    			'update cats set rating = $1, won = won + 1 where id = $2', 
+    			'update cats set rank = $1, won = won + 1 where id = $2', 
     			[
     				parseInt(result.playerRating),
     				winnerId
     			]
     		);
     		await t.none(
-    			'update cats set rating = $1, lost = lost + 1 where id = $2', 
+    			'update cats set rank = $1, lost = lost + 1 where id = $2', 
     			[
     				parseInt(result.opponentRating),
     				loserId
     			]
     		);
 		}).then(() => {
+
+
 			res.status(200).json([
 				{
 					id: winnerId,
 					won: data[1].won + 1,
 					lost: data[1].lost,
-					rating: result.playerRating
+					rank: result.playerRating
 				},
 				{
 					id: loserId,
 					won: data[0].won,
 					lost: data[0].lost + 1,
-					rating: result.opponentRating
+					rank: result.opponentRating
 				}
 			]);
 		}).catch(err => {

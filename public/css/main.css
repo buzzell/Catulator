@@ -1,37 +1,54 @@
-html,body{
+html{
     height: 100%;
 }
 body{
 	min-height: 100%;
+    background-color:#333;
 }
+header {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 20px 2.5%;
+}
+header h1 {
+    margin: 0;
+    font-family: 'Finger Paint', cursive;
+    text-shadow: 2px 2px 6px rgba(0,0,0,.3);
+    font-size: 26px;
+    letter-spacing: 1px;
+}
+header h1 a {
+    text-decoration: none !important;
+    color:#fff !important;
+    display: inline-block;
+}
+header h1 a img {
+    display: inline-block;
+    width: 31px;
+    vertical-align: middle;
+    margin-right: 10px;
+    padding-bottom: 1px;
+}
+
+
+
+
+
+/*
+    Landing page styles
+*/
 .landing {
-    z-index: 100;
-    position: absolute;
-    width: 100%;
-    height: 100%;
     min-height: 338px;
-    left:0;
-    top:0;
+    height: 100%;
     background-image: url('/img/landing.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: #666;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     color: #fff;
-}
-.landing a.ranking {
-    position: absolute;
-    right: 6px;
-    color: #ddd;
-    top: 0;
-    letter-spacing: 1px;
-    padding: 4px 8px;
-    font-family: monospace;
-    font-size: 16px;
 }
 .landing img {
     width: 64px;
@@ -56,147 +73,242 @@ body{
     line-height: 18px;
     margin: 0 0 20px 0;
 }
-.game {
-    min-height: 100%;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: #efefef;
-    display: none;
-}
-.game.padding {
-    padding-bottom: 50px;
-}
-.game h2 {
-    font-family: monospace;
-    text-align: center;
-    margin: 1% 0;
-    font-size: 24px;
-}
-.catBox {
+
+
+
+
+
+/*
+    game page styles
+*/
+.game.flex {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    padding: 1% 0;
+    justify-content: center;
+    flex-direction: column;
 }
-.catImg {
-    margin: 2%;
-    box-sizing: border-box;
-    width: 50%;
-    position: relative;
+
+    .stage {
+        flex: 1;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+    }
+        .stage p{
+            color: #ddd;
+            font-size: 16px;
+            letter-spacing: 1px;
+            margin: 20px 0;
+        }
+        .catBox{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            flex: 1;
+        }
+            .catImg{
+                margin: 2%;
+                width: 50%;
+                position: relative;
+                max-width: 500px;
+            }
+            .catImg:hover img {
+                border-color: limegreen;
+            }
+                .catImg .show{
+                    visibility: visible;
+                }
+                .catImg .rank {
+                    color: white;
+                    font-weight: bold;
+                    font-size: 13px;
+                    text-align: center;
+                    padding: 2px 0;
+                    border-radius: 4px 4px 0px 0;
+                    visibility: hidden;
+                }
+                .catImg .rank.winner {
+                    background-color: limegreen;
+                }
+                .catImg .rank.loser {
+                    background-color: orangered
+                }
+                .catImg .rank.tie {
+                    background-color: lightgrey;
+                    color: #333;
+                }
+                .catImg img {
+                    width: 100%;
+                    display: block;
+                    box-shadow: 9px 9px 12px -4px rgba(0,0,0,.3);
+                    cursor: cell;
+                }
+                .catImg .scale {
+                    visibility: hidden;
+                }
+                .catImg .scale div {
+                    height: 4px;
+                    float:left;
+                }
+                .catImg .scale div.good {
+                     background-color: limegreen;
+                }
+                .catImg .scale div.bad {
+                    background-color: orangered;
+                }
+                .catImg .stats {
+                    display: flex;
+                    justify-content: space-between;
+                    color: #ccc;
+                    font-family: monospace;
+                    font-size: 13px;
+                    visibility: hidden;
+                }
+                .catImg .stats span {
+                    width: 75px;
+                    text-align: center;
+                }
+                .catImg .stats span.won {
+                    color:limegreen;
+                }
+                .catImg .stats span.lost {
+                   color:orangered; 
+                }
+            .divider {
+                width: 0;
+                border-left: 1px solid #ccc;
+                align-self: center;
+                margin: 0 1%;
+                position: relative;
+                height: 100%;
+                max-height: 350px;
+            }
+            .divider div {
+                position: absolute;
+                top: 50%;
+                font-size: 18px;
+                letter-spacing: 1px;
+                font-family: monospace;
+                color: #999;
+                background-color: #333;
+                line-height: 30px;
+                left: -10px;
+                margin-top: -23px;
+                /* margin-top: -15px; */
+                padding: 8px 0;
+            }
+
+    button.btn{
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        display: none;
+    }
+
+.game .spinner{
+    background-color: #fff;
 }
-.catImg img {
-    width: 100%;
-    display: block;
-    border-radius: 2px;
-    border: 8px solid white;
-    box-shadow: 9px 9px 12px -4px rgba(0,0,0,.3);
-    cursor: cell;
+
+@media screen and (max-width: 650px){
+    .catBox {
+        flex-direction: column;
+    }
+    .catImg {
+        width: 96%;
+    }
+    .catBox .divider {
+        width: 96%;
+        border:0;
+        border-bottom: 1px solid #ccc;
+        margin: 2% 2%;
+    }
+    .catBox .divider div {
+        padding: 8px;
+        left:50%;
+        margin-left: -23px;
+
+    }
 }
-.catImg.winner img {
-    border-color:rgba(122,191,102,.9) !important;
-    box-shadow:0 0 25px 4px rgba(122,191,102 ,.3) !important;
-}
-.catImg.loser img {
-    border-color:rgb(219,48,38 ,.9) !important;
-    box-shadow:0 0 25px 4px rgba(219,48,38 ,.3) !important;
-}
-.catImg:hover img {
-    border-color: #555;
-    box-shadow: 0 0 16px 2px rgba(0,0,0,.2);
-}
-.catImg .rbadge {
-    pointer-events: none;
-    color: rgba(255,255,255,.9);
-    position: absolute;
-    top: 50%;
-    border-radius: 5px;
-    left: 50%;
-    font-size: 20px;
-    height: 200px;
-    width: 150px;
-    text-align: center;
-    margin: -100px 0 0 -75px;
-}
-.catImg.winner .rbadge {
-    background-color: rgba(122,191,102,.8);
-}
-.catImg.loser .rbadge {
-    background-color: rgba(219,48,38,.8);
-}
-.catImg .rbadge h3 {
-    margin: 15px 0;
-}
-.catImg .rbadge div > div {
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-.catImg .rbadge div > div span {
-    display: block;
-    color: #444;
-    font-size: 12px;
-    font-family: arial;
-    letter-spacing: 1px;
-    line-height: 12px;
-}
-.catImg i {
-    position: absolute;
-    right: 12px;
-    top: 12px;
-    font-size: 25px;
-    border-radius: 2px;
-    padding: 8px;
-    cursor: zoom-in;
-    color: #eee;
-    background-color: rgba(0,0,0,.3);
-}
-.divider {
-    width: 2px;
-    max-width: 1px;
-    background-color: rgba(0,0,0,.2);
-    align-self: normal;
-    position: relative;
-    margin: 0 2%;
-}
-.divider div{
-    position: absolute;
-    top: 50%;
-    font-size: 18px;
-    letter-spacing: 1px;
-    font-family: monospace;
-    color: #999;
-    background-color: #efefef;
-    line-height: 30px;
-    left: -10px;
-    margin-top: -15px;
-}
-.morecats {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    display: none;
-}
-.morecats button {
-    border-radius: 0;
-    cursor: pointer;
-}
-.slbContentOuter {
+
+
+
+/*
+    Rankings page styles
+*/
+.rankings ul, .rankings li {
+    margin: 0;
     padding: 0;
+    list-style: none;
 }
-.slbImage{
-    padding: 0
+.rankings ul{
+    max-width: 720px;
+    margin: 0 auto;
 }
-.slbCloseBtn {
-    font-size: 2em;
-    width: 1.3em;
-    height: 1.3em;
-    line-height: 1.3em;
-    outline: 0px;
-    background-color: rgba(0,0,0,.3);
-    right: 0;
-    border-bottom-left-radius: 2px;
+.rankings li {
+    margin: 2%;
+    text-align: right;
 }
+.rankings li:first-child{
+    margin-top: 0;
+}
+.rankings li a {
+    display: inline-block;
+    color: #ccc;
+    font-weight: 100;
+    font-size: 13px;
+    font-family: monospace;
+    margin-right: 5px;
+    text-decoration: none !important
+}
+.rankings li img {
+    display: block;
+    width: 100%;
+}
+.rankings .scale {
+    height: 4px;
+}
+.rankings .scale div {
+    height: 100%;
+    float:left;
+}
+.rankings .scale div.good {
+    background-color: limegreen;
+}
+.rankings .scale div.bad {
+    background-color: orangered;
+}
+.rankings .stats {
+    display: flex;
+    justify-content: space-between;
+    color: #ccc;
+    font-family: monospace;
+    font-size: 13px;
+}
+.rankings .stats span{
+    width: 50px;
+    text-align: center;
+}
+.rankings .stats span.won{
+    color: limegreen;
+}
+.rankings .stats span.rating{
+    font-weight: bold;
+}
+.rankings .stats span.lost{
+    color: orangered;
+}
+
+
+
+
+
+
+/*
+    spinner styles
+*/
 .spinner {
     width: 55px;
     height: 55px;
@@ -220,29 +332,5 @@ body{
         -webkit-transform: scale(1.0);
         transform: scale(1.0);
         opacity: 0;
-    }
-}
-@media screen and (max-width: 640px){
-    .catBox {
-        flex-direction: column;
-    }
-    .catImg{
-        width: 96%;
-        max-width: 500px;
-    }
-    .divider {
-        margin: 4% 2%;
-        width: 96%;
-        height: 1px;
-        align-self: center;
-        max-width: initial;
-    }
-    .divider div {
-        left: 50%;
-        top: 4px;
-        line-height: 20px;
-        width: 40px;
-        text-align: center;
-        margin-left: -20px;  
     }
 }

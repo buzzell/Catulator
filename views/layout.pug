@@ -1,5 +1,6 @@
 doctype html
 html(lang='en')
 	include includes/head.pug
-	body
+	block vars
+	body(class=bodyClass)
 		block content

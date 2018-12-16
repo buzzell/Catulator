@@ -1,4 +1,6 @@
 extends layout
+block vars
+	- var bodyClass = 'rankings';
 block content
 	header
 		h1
@@ -21,7 +23,7 @@ block content
 					div.bad(style="width:"+badP+"%;")
 				div.stats
 					span.won= cat.won + " won"
-					span.rating= cat.rating
+					span.rating= cat.rank
 					span.lost= cat.lost + " lost"
 	script(type='text/javascript', src='https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js')
 	script.
