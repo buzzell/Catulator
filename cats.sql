@@ -5,13 +5,13 @@ CREATE DATABASE catulator;
 
 CREATE TABLE cats (
   id VARCHAR (255) UNIQUE NOT NULL,
-  rating DECIMAL (11,5) NOT NULL DEFAULT 0.00000,
+  rank INTEGER NOT NULL DEFAULT '0',
   won INTEGER NOT NULL DEFAULT '0',
-  lost int NOT NULL DEFAULT '0',
+  lost INTEGER NOT NULL DEFAULT '0',
   source varchar (255) NOT NULL
 );
 
-INSERT INTO cats (id, rating, won, lost, source) VALUES
+INSERT INTO cats (id, rank, won, lost, source) VALUES
 ('amv', '0.00000', 0, 0, 'http://24.media.tumblr.com/tumblr_m3pu8iNdjA1qjc1a7o1_1280.jpg'),
 ('741', '0.00000', 0, 0, 'http://25.media.tumblr.com/Jjkybd3nScerzx8dikwy34h0_400.jpg'),
 ('MTg3NTQ4NA', '0.00000', 0, 0, 'http://25.media.tumblr.com/tumblr_mb43zrtp8B1qzezhmo1_400.jpg'),

@@ -1,5 +1,5 @@
 {
-  "name": "catulatorNode",
+  "name": "catulator",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
     "elo-rating": "^1.0.1",
     "express": "^4.16.4",

@@ -1,8 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const pgp = require('pg-promise')({});
-const EloRating = require('elo-rating');
-const db = pgp('postgres://buzzell:@localhost:5432/catulator');
+const express = require('express'),
+      router = express.Router(),
+      pgp = require('pg-promise')({}),
+      EloRating = require('elo-rating'),
+      db = pgp('postgres://buzzell:@localhost:5432/catulator');
 
 // GET
 // render the landing page
@@ -13,7 +13,7 @@ router.get('/', (req, res, next) => {
 // GET
 // render the game
 router.get('/game', (req, res, next) => {
-	res.render("game", {page: "game"})
+	res.render("game")
 });
 
 // GET
@@ -23,11 +23,14 @@ router.get('/rankings', (req, res, next) => {
     if(!req.query.dirr) req.query.dirr = "DESC";
     db.any('SELECT * FROM cats ORDER BY $1 $2:raw', [parseInt(req.query.order), req.query.dirr])
     .then(function (data) {
-        res.render("rankings", {data:data, page: "rankings"})
+        res.render("rankings", {data:data})
     }).catch(function (err) {
         return next(err);
     });
 });
+
+// GET
+// return json data for rankings
 router.get('/rankings.json', (req, res, next) => {
     if(!req.query.order) req.query.order = 6;
     if(!req.query.dirr) req.query.dirr = "DESC";
@@ -80,8 +83,6 @@ router.post('/vote', (req, res, next) => {
     			]
     		);
 		}).then(() => {
-
-
 			res.status(200).json([
 				{
 					id: winnerId,

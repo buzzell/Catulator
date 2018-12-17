@@ -13,7 +13,6 @@ const catulator = {
 				let r1 = data[0].rank;
 				let id1 = data[0].id;
 				let $el1 = $('#'+id1);
-				
 				let total1 = data[0].won + data[0].lost;
 				let wonp1 = (data[0].won / total1) * 100;
 				let lostp1 = (data[0].lost / total1) * 100;
@@ -21,17 +20,13 @@ const catulator = {
 				$el1.find('.scale').css('visibility','visible');
 				$el1.find('.scale .good').width(wonp1+"%");
 				$el1.find('.scale .bad').width(lostp1+"%");
-
 				$el1.find('.stats').css('visibility','visible');
 				$el1.find('.stats .won').text(data[0].won+' won');
 				$el1.find('.stats .lost').text(data[0].lost+ ' lost');
 
-
-
 				let r2 = data[1].rank;
 				let id2 = data[1].id
 				let $el2 = $('#'+id2);
-				
 				let total2 = data[1].won + data[1].lost;
 				let wonp2 = (data[1].won / total2) * 100
 				let lostp2 = (data[1].lost / total2) * 100
@@ -39,11 +34,9 @@ const catulator = {
 				$el2.find('.scale').css('visibility','visible');
 				$el2.find('.scale .good').width(wonp2+"%");
 				$el2.find('.scale .bad').width(lostp2+"%");
-
 				$el2.find('.stats').css('visibility','visible');
 				$el2.find('.stats .won').text(data[1].won+' won');
 				$el2.find('.stats .lost').text(data[1].lost+ ' lost');
-
 
 				if(r1 > r2){
 					$el1.find('.rank').addClass('winner');
@@ -95,6 +88,7 @@ const catulator = {
 							<span class="lost">0</span>
 						</div>
 					</div>
+				</div>
 			`;
 			$('.stage').html(stageHtml)
 		})
