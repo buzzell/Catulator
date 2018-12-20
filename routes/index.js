@@ -42,6 +42,19 @@ router.get('/rankings.json', (req, res, next) => {
     });
 });
 
+
+// GET
+// Page for uploading new photo
+router.get('/add', (req, res, next) => {
+    res.render('add')
+})
+
+// POST
+// Upload route for adding new pictures
+router.post('/upload', (req, res, next) => {
+    res.json({asdf:"asdf"})
+});
+
 // GET
 // get json for two random cats
 router.get('/twocats.json', (req, res, next) => {

@@ -179,7 +179,7 @@ body{
                     .catImg .stats span.lost {
                        color:orangered; 
                     }
-    button.btn {
+    .game button.btn {
         width: 100%;
         position: fixed;
         bottom: 0;

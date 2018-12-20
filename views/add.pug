@@ -1,0 +1,61 @@
+extends layout
+block vars
+	- var bodyClass = 'add';
+block content
+	header
+		h1
+			a(href='/') 
+				img(src='/img/cat.png')
+				| Catulator
+		div
+			a.btn.btn-sm.btn-outline-light(href='/game') Judge Some Cats!
+			a.btn.btn-sm.btn-outline-light(href='/rankings') Rankings
+	form(method="post",action="/upload", class="dropzone", id="dz")
+		div.dz-message
+			button.btn.btn-primary.btn-sm(type="button") Choose pictures
+			|  or drop them here.
+		.dz-error
+	.dropzone-previews
+	button.submit(onclick="myDropzone.processQueue()") hjgjg
+	script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+	script(type='text/javascript', src='/js/dropzone.js')
+	script.
+		Dropzone.autoDiscover = false;
+		var myDropzone = new Dropzone("form", { 
+			url: "/upload",
+			maxFiles: 1,
+			clickable:".dz-message .btn",
+			acceptedFiles: "image/*",
+			autoProcessQueue: false,
+			thumbnailWidth:600,
+			thumbnailHeight:600,
+			addRemoveLinks:true,
+			previewsContainer: ".dropzone-previews"
+		});
+		myDropzone.on("addedfile", function(file) {
+			$('.submit').show()
+		});
+		myDropzone.on("drop", function(e) {
+		
+		});
+		myDropzone.on("maxfilesreached", function(file){
+			$(".dz-message").hide();
+			myDropzone.removeFile(file)
+
+		});
+		myDropzone.on("error", function(file, mes, xr){
+			myDropzone.removeFile(file)
+			$('.dz-error').text(mes).show()
+			setTimeout(_=>{
+				$('.dz-error').hide().text("")
+			},1000)
+		});
+		myDropzone.on("removedfile", function(file){
+			$('.submit').hide()
+			$(".dz-message").show();
+		});
+		myDropzone.on("sending", function(file){
+		
+			$('.submit').hide()
+			$('.dz-remove').hide()
+		});
