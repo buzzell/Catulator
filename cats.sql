@@ -1,8 +1,7 @@
 DROP DATABASE IF EXISTS catulator;
 CREATE DATABASE catulator;
 
-\c catulator;
-
+DROP TABLE IF EXISTS cats;
 CREATE TABLE cats (
   id VARCHAR (255) UNIQUE NOT NULL,
   rank INTEGER NOT NULL DEFAULT '0',

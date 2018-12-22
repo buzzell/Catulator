@@ -1,7 +1,7 @@
 {
   "name": "catulator",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.1.0",
+  "description": "An app for judging cats on thier cuteness",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
     "elo-rating": "^1.0.1",
     "express": "^4.16.4",
     "express-favicon": "^2.0.1",

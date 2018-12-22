@@ -2,16 +2,16 @@ const express = require('express'),
       router = express.Router(),
       pgp = require('pg-promise')({}),
       EloRating = require('elo-rating'),
-      db = pgp('postgres://buzzell:@localhost:5432/catulator');
-var md5 = require('md5');
-const multer  = require('multer')
-const fs = require('fs');
-const shortid = require('shortid');
-var storage = multer.diskStorage({
-  destination: "uploads/",
-  filename: function (req, file, cb) {
-    let tempname, ext;
+      db = pgp('postgres://buzzell:@localhost:5432/catulator'),
+      md5 = require('md5'),
+      multer  = require('multer'),
+      fs = require('fs'),
+      shortid = require('shortid');
 
+const upload = multer({ storage: multer.diskStorage({
+    destination: "uploads/",
+    filename: function (req, file, cb) {
+        let ext;
         if(file.mimetype == "image/jpeg"){
             ext = "jpg"
         }else if(file.mimetype == "image/png"){
@@ -19,12 +19,9 @@ var storage = multer.diskStorage({
         }else if(file.mimetype == "image/gif"){
             ext = "gif"
         }
-
-    cb(null, md5(Date.now()+file.originalname)+"."+ext)
-  }
-})
-      
-const upload = multer({ storage: storage })
+        cb(null, md5(Date.now()+file.originalname)+"."+ext)
+    }
+})})
 
 // GET
 // render the landing page
@@ -64,7 +61,6 @@ router.get('/rankings.json', (req, res, next) => {
     });
 });
 
-
 // GET
 // Page for uploading new photo
 router.get('/add', (req, res, next) => {
@@ -72,27 +68,20 @@ router.get('/add', (req, res, next) => {
 })
 
 // POST
-// Upload route for adding new pictures
+// Upload route for adding new photo
 router.post('/upload', upload.single('file'), (req, res, next) => {
     let i = shortid.generate()
     let f = req.file.filename
     db.any('INSERT INTO cats (id, filename, url) VALUES($1, $2, $3) RETURNING *', [i, f, "http://devbox:3000/cats/"+i+".jpg"])
     .then(function (data) {
-     
-
-
         res.json(data)
     }).catch(function (err) {
         return next(err);
     });
-    
-
-
-
-
 });
 
-
+// GET
+// return cat image from id
 router.get('/cats/:id.jpg', (req, res, next) => {
     let id = req.params.id
     db.any('select * from cats where id = $1', id)
@@ -107,6 +96,9 @@ router.get('/cats/:id.jpg', (req, res, next) => {
         }
     })
 })
+
+// GET
+// page for viewing single cat ranking
 router.get('/cats/:id', (req, res, next) => {
     let id = req.params.id
     db.any('select * from cats where id = $1', id)
@@ -120,9 +112,6 @@ router.get('/cats/:id', (req, res, next) => {
         }
     })
 })
-
-
-
 
 // GET
 // get json for two random cats
