@@ -2,7 +2,26 @@ const express = require('express'),
       router = express.Router(),
       pgp = require('pg-promise')({}),
       EloRating = require('elo-rating'),
-      db = pgp('postgres://buzzell:@localhost:5432/catulator');
+      db = pgp('postgres://buzzell:@localhost:5432/catulator'),
+      md5 = require('md5'),
+      multer  = require('multer'),
+      fs = require('fs'),
+      shortid = require('shortid');
+
+const upload = multer({ storage: multer.diskStorage({
+    destination: "uploads/",
+    filename: function (req, file, cb) {
+        let ext;
+        if(file.mimetype == "image/jpeg"){
+            ext = "jpg"
+        }else if(file.mimetype == "image/png"){
+            ext = "png"
+        }else if(file.mimetype == "image/gif"){
+            ext = "gif"
+        }
+        cb(null, md5(Date.now()+file.originalname)+"."+ext)
+    }
+})})
 
 // GET
 // render the landing page
@@ -41,6 +60,58 @@ router.get('/rankings.json', (req, res, next) => {
         return next(err);
     });
 });
+
+// GET
+// Page for uploading new photo
+router.get('/add', (req, res, next) => {
+    res.render('add')
+})
+
+// POST
+// Upload route for adding new photo
+router.post('/upload', upload.single('file'), (req, res, next) => {
+    let i = shortid.generate()
+    let f = req.file.filename
+    db.any('INSERT INTO cats (id, filename, url) VALUES($1, $2, $3) RETURNING *', [i, f, "http://devbox:3000/cats/"+i+".jpg"])
+    .then(function (data) {
+        res.json(data)
+    }).catch(function (err) {
+        return next(err);
+    });
+});
+
+// GET
+// return cat image from id
+router.get('/cats/:id.jpg', (req, res, next) => {
+    let id = req.params.id
+    db.any('select * from cats where id = $1', id)
+    .then(function (data) {
+        if(data.length){
+            res.writeHead(200, {'Content-Type': 'image/jpeg' });
+            res.end(fs.readFileSync('./uploads/'+data[0].filename), 'binary');
+        }else{
+            const err = new Error("That kitty can't be found")
+            err.status = 404
+            next(err)
+        }
+    })
+})
+
+// GET
+// page for viewing single cat ranking
+router.get('/cats/:id', (req, res, next) => {
+    let id = req.params.id
+    db.any('select * from cats where id = $1', id)
+    .then(function (data) {
+        if(data.length){
+            res.render('cat', {cat:data[0]})
+        }else{
+            const err = new Error("That kitty can't be found")
+            err.status = 404
+            next(err)
+        }
+    })
+})
 
 // GET
 // get json for two random cats

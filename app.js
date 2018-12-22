@@ -1,8 +1,10 @@
 const express = require('express'),
 	  jsonParser = require('body-parser').json,
-	  favicon = require('express-favicon');
+	  favicon = require('express-favicon'),
+	  compression = require('compression'),
 	  app = express();
 
+app.use(compression());
 app.use(jsonParser());
 app.use(express.static('public'))
 app.use(favicon('/public/favicon.ico'));

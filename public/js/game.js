@@ -66,7 +66,7 @@ const catulator = {
 				<div class="catBox">
 					<div id="${cats[0].id}" data-id="${cats[0].id}" class="catImg">
 						<div class="rank">0</div>
-						<img src="${cats[0].source}">
+						<img src="${cats[0].url}">
 						<div class="scale clearfix">
 							<div class="good"></div>
 							<div class="bad"></div>
@@ -78,7 +78,7 @@ const catulator = {
 					</div>
 					<div id="${cats[1].id}" data-id="${cats[1].id}" class="catImg">
 						<div class="rank">0</div>
-						<img src="${cats[1].source}">
+						<img src="${cats[1].url}">
 						<div class="scale clearfix">
 							<div class="good"></div>
 							<div class="bad"></div>

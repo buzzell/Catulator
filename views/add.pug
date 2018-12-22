@@ -1,0 +1,23 @@
+extends layout
+block vars
+	- var bodyClass = 'addBody';
+block content
+	header
+		h1
+			a(href='/') 
+				img(src='/img/cat.png')
+				| Catulator
+		div
+			a.btn.btn-sm.btn-outline-light(href='/game') Judge
+			a.btn.btn-sm.btn-outline-light(href='/rankings') Rankings
+	.add
+		form(method="post",action="/upload", class="dropzone", id="dz", enctype="multipart/form-data")
+			div.dz-message
+				button.btn.btn-primary.btn-sm(type="button") Choose a photo
+				|  or drop it here.
+		.dz-error
+		.dropzone-previews
+		button.submit.btn.btn-success(onclick="myDropzone.processQueue()") Upload
+	script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+	script(type='text/javascript', src='/js/dropzone.js')
+	script(type='text/javascript', src='/js/add.js')

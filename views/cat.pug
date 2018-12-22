@@ -1,0 +1,33 @@
+extends layout
+block vars
+	- var bodyClass = 'rankings';
+block content
+	header
+		h1
+			a(href='/') 
+				img(src='/img/cat.png')
+				| Catulator
+		div
+			a.btn.btn-sm.btn-outline-light(href='/game') Judge
+			a.btn.btn-sm.btn-outline-light(href='/rankings') Rankings
+			a.btn.btn-sm.btn-outline-light(href='/add') Add
+	ul
+		- var total = cat.won + cat.lost;
+		- var goodP = 50;
+		- var badP = 50;
+		if total > 0
+			- var goodP = ( cat.won / total ) * 100;
+			- var badP = ( cat.lost / total ) * 100;
+		li(id=cat.id)
+			a(href=cat.url, target='_blank') SOURCE
+			img.lozad(src="/img/phold.jpg", data-src=cat.url)
+			div.scale.clearfix
+				div.good(style="width:"+goodP+"%;")
+				div.bad(style="width:"+badP+"%;")
+			div.stats
+				span.won= cat.won + " won"
+				span.rating= cat.rank
+				span.lost= cat.lost + " lost"
+	script(type='text/javascript', src='https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js')
+	script.
+		window.lozad().observe()

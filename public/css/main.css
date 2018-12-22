@@ -33,6 +33,16 @@ body{
                     margin-right: 10px;
                     padding-bottom: 1px;
                 }
+        header a.btn:not(:last-child) {
+            margin-right: 10px
+        }
+
+    @media screen and (max-width: 420px) {
+        header{
+            flex-direction: column;
+            height: 115px;
+        }
+    }
 
 /*
     Landing page styles
@@ -74,11 +84,15 @@ body{
         margin: 0 0 20px 0;
     }
     .landing div {
-        max-width: 311px;
+        max-width: 396px;
         width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
     }
         .landing .btn{
-            margin: 0 15px;
+            margin: 15px;
         }
 
 /*
@@ -179,7 +193,7 @@ body{
                     .catImg .stats span.lost {
                        color:orangered; 
                     }
-    button.btn {
+    .game button.btn {
         width: 100%;
         position: fixed;
         bottom: 0;
@@ -194,18 +208,6 @@ body{
         }
         .catImg {
             width: 96%;
-        }
-        .catBox .divider {
-            width: 96%;
-            border:0;
-            border-bottom: 1px solid #ccc;
-            margin: 2% 2%;
-        }
-        .catBox .divider div {
-            padding: 8px;
-            left:50%;
-            margin-left: -23px;
-
         }
     }
 
@@ -274,6 +276,149 @@ body{
             .rankings .stats span.lost{
                 color: orangered;
             }
+
+/*
+    Add page styles
+*/
+.addBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+    .addedCats {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        max-width: 450px;
+    }
+        .addedCats h2 {
+            width: 100%;
+            color: #eee;
+            font-size: 16px;
+            margin: 0;
+        }
+        .addedCats a {
+            width: 25%;
+            padding: 2%;
+        }
+            .addedCats img {
+                display: block;
+                width: 100%;
+            }
+    .add {
+        flex:1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0 3%;
+        width: 100%;
+    }
+        .add form{
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            border:3px dashed #ccc;
+            border-radius: 20px;
+        }
+            .dz-message {
+                padding: 40px 0;
+                color:#ddd;
+                text-align: center;
+            }
+        .add .dz-error{
+            color: #bbb;
+            text-align: center;
+            display: none;
+            margin-bottom: 7px;
+            font-size: 13px;
+            font-family: monospace;
+        }
+        .dz-image-preview {
+                max-width: 500px;
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+            .dz-image img {
+                display: block;
+                width: 100%;
+            }
+
+            .dz-details {
+                bottom: 0px;
+                left: 0;
+                padding: 7px;
+                position: absolute;
+                color: white;
+                width: 100%;
+                background-color: rgba(0,0,0,.5);
+                letter-spacing: 1px;
+                font-size: 12px;
+                padding-right: 48px;
+            }
+                .dz-filename {
+                    text-overflow: ellipsis;
+                    width: 100%;
+                    overflow: hidden;
+                }
+            .dz-progress {
+                position: absolute;
+                top: 0;
+                width: 100%;
+            }
+                .dz-progress span {
+                    height: 7px;
+                    background-color: royalblue;
+                    width: 0%;
+                    opacity: .9;
+                    display: block;
+                }
+            .dz-success-mark, .dz-error-mark{
+                display: none;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin: -26px 0 0 -25px;
+                padding: 5px;
+                background: limegreen;
+                opacity: .8;
+                border-radius: 50%;
+            }
+                .dz-success-mark svg, .dz-error-mark svg{
+                    display: block
+                }
+            .dz-error-mark {
+                background-color: orangered;
+            }
+            .dz-success .dz-success-mark {
+                display: block;
+            }
+            .dz-error .dz-error-mark {
+                display: block;
+            }
+            .dz-remove{
+                right: 0;
+                bottom: 0px;
+                padding: 12px 15px;
+                color: #fff !important;
+                font: 14px/100% arial, sans-serif;
+                position: absolute;
+                text-decoration: none !important;
+                text-shadow: 0 1px 0 #000;
+                font-size: 26px;
+            }
+        .add .submit {
+            display: none;
+            width: 100%;
+            margin: 15px auto;
+            max-width: 500px;
+        }
+        .add .btn-link {
+            margin:18px 0;
+        }
 
 /*
     Error page styles
