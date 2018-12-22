@@ -38,7 +38,7 @@ router.get('/game', (req, res, next) => {
 // GET
 // render page for rankings
 router.get('/rankings', (req, res, next) => {
-    if(!req.query.order) req.query.order = 6;
+    if(!req.query.order) req.query.order = 2;
     if(!req.query.dirr) req.query.dirr = "DESC";
     db.any('SELECT * FROM cats ORDER BY $1 $2:raw', [parseInt(req.query.order), req.query.dirr])
     .then(function (data) {
