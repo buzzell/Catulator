@@ -2,16 +2,20 @@
   "name": "catulator",
   "version": "1.1.0",
   "description": "An app for judging cats on thier cuteness",
+  "engines": {
+    "node": "11.x"
+  },
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Justin Buzzell <justin@buzzell.me> (http://buzzell.me)",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
+    "dotenv": "^6.2.0",
     "elo-rating": "^1.0.1",
     "express": "^4.16.4",
     "express-favicon": "^2.0.1",
